@@ -2,29 +2,29 @@ import re
 
 
 class Dimensions:
-    def __init__(self, width: int, height: int):
+    def __init__(self, width, height):
         self.width = width
         self.height = height
 
     @property
-    def width(self):
+    def width(self) -> int:
         return self._width
 
     @width.setter
-    def width(self, value: int):
+    def width(self, value):
         if value < 64:
             raise ValueError("width of less than 64 pixel")
-        self._width = int(value / 2) * 2 if value % 2 else value
+        self._width = int(value / 2) * 2 if value % 2 else int(value)
 
     @property
-    def height(self):
+    def height(self) -> int:
         return self._height
 
     @height.setter
-    def height(self, value: int):
+    def height(self, value):
         if value < 64:
             raise ValueError("height of less than 64 pixel")
-        self._height = int(value / 2) * 2 if value % 2 else value
+        self._height = int(value / 2) * 2 if value % 2 else int(value)
 
 
 def calculate_aspect_ratio(
@@ -44,13 +44,13 @@ def calculate_aspect_ratio(
         else:
             height *= ratio
 
-    return Dimensions(int(width), int(height))
+    return Dimensions(width, height)
 
 
 def calculate_constant_constant_resolution(
     base_resolution: int, ratio: float
 ) -> Dimensions:
-    pixel_count = base_resolution ** 2
+    pixel_count = base_resolution**2
     new_height = (pixel_count * ratio) ** 0.5
     new_width = new_height / ratio
     return Dimensions(new_width, new_height)
@@ -186,12 +186,6 @@ class YARSAdv:
         return (d.width, d.height)
 
 
-NODE_CLASS_MAPPINGS = {"YARS": YARS, "YARSAdv": YARSAdv}
-NODE_DISPLAY_NAME_MAPPINGS = {
-    "YARS": "yaResolution Selector",
-    "YARSAdv": "yaResolution Selector (Advanced)",
-}
-
 if __name__ == "__main__":
     import unittest
 
@@ -237,5 +231,10 @@ if __name__ == "__main__":
                 ValueError, msg="No error raised with width less than 64 pixels"
             ):
                 Dimensions(55, 512)
+
+        def test_dimensions_returns_ints(self):
+            d = Dimensions(153.584, 128.0000)
+            self.assertIsInstance(d.width, int)
+            self.assertIsInstance(d.height, int)
 
     unittest.main()
