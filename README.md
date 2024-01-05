@@ -18,7 +18,7 @@ or
 
 To uninstall:
 
-- Delete the `ComfyUI-yaResolutionSelector` in your ComfyUI custom_nodes directory and `yarsQuickNodes.js` file in `ComfyUI\web\extensions\tropf` directory
+- Delete `ComfyUI-yaResolutionSelector` in your ComfyUI custom_nodes directory
 
 ## Use
 
