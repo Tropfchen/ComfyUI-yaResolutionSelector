@@ -1,4 +1,5 @@
 import { app } from "../../scripts/app.js";
+import { ComfyWidgets } from "/scripts/widgets.js";
 
 // ----------- ComfyUI\web\extensions\core\widgetInputs.js copypaste -----------
 const CONVERTED_TYPE = "converted-widget";
@@ -139,9 +140,42 @@ function prependNewNode(node, nodeData, newNodeName, newNodewidgetNames) {
 app.registerExtension({
   name: "trop.YARS",
   async beforeRegisterNodeDef(nodeType, nodeData, app) {
-    if (
+    // add resolution printout
+    if (nodeData.name === "YARSAdv" || nodeData.name === "YARS") {
+      const onExecuted = nodeType.prototype.onExecuted;
+      nodeType.prototype.onExecuted = function (message) {
+        const r = onExecuted?.apply?.(this, arguments);
+
+        let w = this.widgets.find((w) => w.name === "resolution_printout");
+        if (!w) {
+          w = ComfyWidgets["STRING"](
+            this,
+            "resolution_printout",
+            ["STRING", { multiline: true }],
+            app,
+          ).widget;
+          w.inputEl.readOnly = true;
+          w.inputEl.style.opacity = 0.8;
+        }
+
+        const width = message.width[0];
+        const height = message.height[0];
+        const mpx = ((width * height) / 1048576).toFixed(2);
+        const res_msg = `resolution: ${width}x${height} (~${mpx} Mpx)`;
+        const ratio_msg = `ratio: ~${message.ratio[0].toFixed(2)}`;
+        w.value = `${res_msg}\n${ratio_msg}`;
+
+        this.onResize?.(this.size);
+
+        return r;
+      };
+    }
+
+    // add quick nodes
+    else if (
       nodeData.name === "EmptyLatentImage" ||
-      nodeData.name === "ImageScale"
+      nodeData.name === "ImageScale" ||
+      nodeData.name === "LatentUpscale"
     ) {
       addMenuHandler(nodeType, function (_, options) {
         const entries = [

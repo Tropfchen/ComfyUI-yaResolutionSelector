@@ -106,12 +106,20 @@ class YARS:
         base_resolution: int,
         aspect_ratio: str,
         overextend: bool,
-    ) -> tuple[int, int]:
+    ):
         if m := re.search(r"(\d+):(\d+)", aspect_ratio):
             ratio: float = int(m.group(2)) / int(m.group(1))
             d = calculate_aspect_ratio(base_resolution, ratio, overextend)
 
-            return (d.width, d.height)
+            # return as dict with `ui` key to trigger onExecuted
+            return {
+                "ui": {
+                    "width": [d.width],
+                    "height": [d.height],
+                    "ratio": [ratio],
+                },
+                "result": (d.width, d.height),
+            }
 
         raise ValueError(f"Could't find aspect ratio in string `{aspect_ratio}`")
 
@@ -175,7 +183,7 @@ class YARSAdv:
         height_ratio: int,
         overextend: bool,
         constant_resolution: bool,
-    ) -> tuple[int, int]:
+    ):
         ratio: float = height_ratio / width_ratio
 
         if constant_resolution:
@@ -183,7 +191,15 @@ class YARSAdv:
         else:
             d = calculate_aspect_ratio(base_resolution, ratio, overextend)
 
-        return (d.width, d.height)
+        # return as dict with `ui` key to trigger onExecuted
+        return {
+            "ui": {
+                "width": [d.width],
+                "height": [d.height],
+                "ratio": [width_ratio / height_ratio],
+            },
+            "result": (d.width, d.height),
+        }
 
 
 if __name__ == "__main__":
