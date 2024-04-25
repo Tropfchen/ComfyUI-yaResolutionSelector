@@ -1,4 +1,5 @@
 import re
+from pathlib import Path
 
 
 class Dimensions:
@@ -58,24 +59,31 @@ def calculate_constant_constant_resolution(
 
 class YARS:
     def __init__(self):
-        pass
+        self.ratios_path = Path(__file__).parent / "ratios.txt"
+        if not self.ratios_path.exists():
+            with open(self.ratios_path, "w") as file:
+                file.write(
+                    "1:1\n"
+                    "landscape (4:3)\n"
+                    "landscape (3:2)\n"
+                    "landscape (16:9)\n"
+                    "landscape (16:10)\n"
+                    "landscape (21:9)\n"
+                    "portrait (3:4)\n"
+                    "portrait (2:3)\n"
+                    "portrait (9:16)\n"
+                    "portrait (9:10)\n"
+                    "portrait (9:21)\n"
+                )
+
+    def load_ratios(self):
+        with open(self.ratios_path, "r") as file:
+            ratios = [line.strip() for line in file.readlines()]
+        return ratios
 
     @classmethod
-    def INPUT_TYPES(self):
-        ratios = [
-            "1:1",
-            "landscape (4:3)",
-            "landscape (3:2)",
-            "landscape (16:9)",
-            "landscape (16:10)",
-            "landscape (21:9)",
-            "portrait (3:4)",
-            "portrait (2:3)",
-            "portrait (9:16)",
-            "portrait (9:10)",
-            "portrait (9:21)",
-        ]
-
+    def INPUT_TYPES(cls):
+        instance = cls()
         return {
             "required": {
                 "base_resolution": (
@@ -87,7 +95,7 @@ class YARS:
                         "step": 128,
                     },
                 ),
-                "aspect_ratio": ((ratios),),
+                "aspect_ratio": (instance.load_ratios(),),
                 "overextend": (
                     "BOOLEAN",
                     {"default": False, "label_on": "yes ", "label_off": "no "},

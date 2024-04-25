@@ -2,6 +2,7 @@
 .flake8
 .pre-commit-config.yaml
 pyproject.toml
+ratios.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
