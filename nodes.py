@@ -64,15 +64,17 @@ class YARS:
             with open(self.ratios_path, "w") as file:
                 file.write(
                     "1:1\n"
+                    "landscape (5:4)\n"
                     "landscape (4:3)\n"
                     "landscape (3:2)\n"
-                    "landscape (16:9)\n"
                     "landscape (16:10)\n"
+                    "landscape (16:9)\n"
                     "landscape (21:9)\n"
+                    "portrait (4:5)\n"
                     "portrait (3:4)\n"
                     "portrait (2:3)\n"
-                    "portrait (9:16)\n"
                     "portrait (9:10)\n"
+                    "portrait (9:16)\n"
                     "portrait (9:21)\n"
                 )
 

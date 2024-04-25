@@ -34,4 +34,4 @@ Recommend node with flexible ratio choice
 
 #### yaResolution Selector
 
-Basic version for users that prefer aspect ratio presets. New presets can be added by modifying nodes.py file, remember to always include values in format width:height
+Basic version for users that prefer aspect ratio presets. New presets can be added by modifying ratios.txt file (if you don't have it, use the node at least once), remember to always include values in format width:height
