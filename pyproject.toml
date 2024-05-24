@@ -1,0 +1,16 @@
+[project]
+name = "ComfyUI-yaResolutionSelector"
+description = "Freely adjust resolution and aspect ratio, maintain pixel count of StableDiffusion model, or hook it up to upscaling nodes to get that 5k 16:10 wallpaper in just few clicks."
+version = "1.2.0"
+license = "LICENSE"
+
+[project.urls]
+Repository = "https://github.com/Tropfchen/ComfyUI-yaResolutionSelector"
+
+[tool.comfy]
+PublisherId = "tropfchen"
+DisplayName = "yaResolution Selector"
+Icon = ""
+
+[tool.black]
+target-version = ["py311", "py312"]

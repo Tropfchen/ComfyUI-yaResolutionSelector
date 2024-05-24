@@ -1,6 +1,6 @@
 # Yet Another Resolution Selector (YARS)
 
-A slightly different Resolution Selector node, allowing to freely change base resolution and aspect ratio, with options to maintain the pixel count or use the base resolution as the highest or lowest dimension.
+A slightly different take on Resolution Selector nodes - freely adjust resolution and aspect ratio, maintain pixel count of StableDiffusion model, or hook it up to upscaling nodes to get that 5k 16:10 wallpaper in just few clicks.
 
 ![Example](yeetctor.PNG)
 
